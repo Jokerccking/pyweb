@@ -81,6 +81,10 @@ Here is another example of HTML:
 		&copy; 2004 Foo Corporation
 	</div>
 
+<div class="footer">
+	&copy; 2004 Foo Corporation
+</div>
+
 ## 分割线
 acv
 * * *
