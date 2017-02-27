@@ -14,6 +14,6 @@ def update(request):
         td = ToDo.find_by(id=i)
         if td is None or td.uid != u.id:
             return redirect('/todo')
-        td.title = form.get('title')
+        td.title = form.get('title', td.title)
         td.save()
     return redirect('/todo')
