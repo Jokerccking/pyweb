@@ -10,7 +10,7 @@ def update(request):
         return redirect('/')
     if request.method == 'POST':
         form = request.form()
-        i = int(form.get('id'))
+        i = int(form.get('id', -1))
         td = ToDo.find_by(id=i)
         if td is None or td.uid != u.id:
             return redirect('/todo')

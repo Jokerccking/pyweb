@@ -8,7 +8,7 @@ def edit(request):
     u = User.find_by(username=um)
     if u is None:
         return redirect('/')
-    i = int(request.query.get('id'))
+    i = int(request.query.get('id', -1))
     td = ToDo.find_by(id=i)
     if td is None or td.uid != u.id:
         return redirect('/todo')
