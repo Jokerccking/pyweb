@@ -1,21 +1,10 @@
 import random
 
-from Models import message
 from Models.user import User
-from routes import add
-from routes import delete
-from routes import edit
-from routes import index
-from routes import login
-from routes import register
-from routes import static
-from routes import todo
-from routes import update
 
 session = {
-    'session_id': {
-        'username': 'username',
-        'killed_time': '2.22 22:22:22',
+    'sessionn_id': {
+        'username': 'name'
     }
 }
 
@@ -47,7 +36,7 @@ def random_str():
     return s
 
 
-def header_with_headers(headers):
+def header_with_headers(headers={}):
     header = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
     hs = ''
     for k, v in headers.items():
@@ -69,18 +58,3 @@ def validate_routes(route):
         return route(request)
 
     return f
-
-
-route_dict = {
-    '/': index,
-    '/login': login,
-    '/register': register,
-    '/message': message,
-    '/static': static,
-    # todo
-    '/todo': todo,
-    '/todo/add': add,
-    '/todo/edit': edit,
-    '/todo/update': update,
-    '/todo/delete': delete,
-}

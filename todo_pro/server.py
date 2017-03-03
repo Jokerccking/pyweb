@@ -1,7 +1,9 @@
 import socket
 import urllib.parse
 
-from routes import route_dict
+from routes.ind import route_basic
+from routes.static import route_static
+from routes.todo import route_todo
 from utils import log
 
 
@@ -81,7 +83,12 @@ def error(request, code=404):
 
 def response_for_request(request):
     path = request.path
-    response = route_dict.get(path, error)
+    route = {
+        '/static': route_static,
+    }
+    route.update(route_basic)
+    route.update(route_todo)
+    response = route.get(path, error)
     return response(request)
 
 
@@ -93,7 +100,6 @@ def run(host='', port=3000):
         while True:
             s.listen(5)
             connection, address = s.accept()
-            log('请求来自ip：', address)
 
             req = connection.recv(1024)
             req = req.decode('utf-8')

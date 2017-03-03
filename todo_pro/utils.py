@@ -7,3 +7,5 @@ def log(*args, **kwargs):
     t = time.strftime(f, value)
 
     print(t, *args, **kwargs)
+
+

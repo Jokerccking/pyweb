@@ -107,8 +107,9 @@ class Model(object):
                 setattr(self, 'id', i)
                 ms.append(self)
             else:
-                m = self.find_by(id=self.id)
-                ms[ms.index(m)] = self
+                for m in ms:
+                    if getattr(m, 'id') == getattr(self, 'id'):
+                        ms[ms.index(m)] = self
         properties = [m.__dict__ for m in ms]
         save(properties, self.db_path())
         return properties
@@ -119,10 +120,11 @@ class Model(object):
         :return:
         """
         ms = self.all()
-        i = getattr(self, 'id')
-        if i is not None:
-            m = self.find_by(id=i)
-            ms.remove(m)
+        # TODO 验证没有id属性的情况,验证id为None的情况
+        for m in ms:
+            if getattr(m, 'id') == getattr(self, 'id'):
+                ms.remove(m)
+                break
         properties = [m.__dict__ for m in ms]
         save(properties, self.db_path())
 
