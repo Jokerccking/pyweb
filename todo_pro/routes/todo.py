@@ -1,21 +1,13 @@
 from Models.todo import ToDo
-from Models.user import User
-from routes import redirect, header_with_headers, templates, current_user, login_required
+from routes import redirect, header_with_headers, template, current_user, login_required
 from utils import current_time
 
 
 def tdo(request):
     u = current_user(request)
-    tds = ToDo.find_all(uid=u.id)
-    s = ''
-    for td in tds:
-        ed = '<a href="/todo/edit?id={}">编辑</a>'.format(td.id)
-        de = '<a href="/todo/delete?id={}">删除</a>'.format(td.id)
-        s += '<h3>{}: {}    创建时间:{}  更新时间:{}    {}  {}</h3><br>'.\
-            format(td.id, td.title, td.created_time, td.update_time, ed, de)
+    ts = ToDo.find_all(uid=u.id)
     header = header_with_headers()
-    body = templates('todo.html')
-    body = body.replace('{{todos}}', s)
+    body = template('todo.html', tds=ts)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 
@@ -52,9 +44,8 @@ def edit(request):
     if td is None or td.uid != u.id:
         return redirect('/todo')
     header = header_with_headers()
-    body = templates('edit.html')
-    body = body.replace('{{id}}', str(td.id))
-    body = body.replace('{{title}}', str(td.title))
+    # TODO str(td.id)????
+    body = template('edit.html', id=td.id, title=td.title)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 

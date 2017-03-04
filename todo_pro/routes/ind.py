@@ -1,5 +1,5 @@
 from Models.user import User
-from routes import templates, random_str, session, header_with_headers, redirect, current_user
+from routes import template, random_str, session, header_with_headers, redirect, current_user
 
 
 def index(request):
@@ -8,14 +8,13 @@ def index(request):
     if u is not None:
         un = u.username
     header = header_with_headers()
-    body = templates('index.html')
-    body = body.replace('{{um}}', un)
+    body = template('index.html', um=un)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 
 
 def login(request):
-    result = ''
+    rlt = ''
     if request.method == 'POST':
         form = request.form()
         u = User.new(form)
@@ -25,28 +24,27 @@ def login(request):
             headers = {'Set-Cookie': 'user={}'.format(si)}
             return redirect('/', headers)
         else:
-            result = '用户名或密码错误，请重新输入！'
+            rlt = '用户名或密码错误，请重新输入！'
     header = header_with_headers()
-    body = templates('login.html')
-    body = body.replace('{{result}}', result)
+    body = template('login.html', result=rlt)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 
 
 def register(request):
-    result = ''
+    rlt = ''
     if request.method == 'POST':
         form = request.form()
         u = User.new(form)
         if u.validate_register():
+            u.role = 10
             u.save()
-            result = '注册成功！'
+            rlt = '注册成功！'
         else:
-            result = '用户名和密码都必须大于两个字符！'
+            rlt = '用户名和密码都必须大于两个字符！'
 
     header = header_with_headers()
-    body = templates('register.html')
-    body = body.replace('{{result}}', result)
+    body = template('register.html', result=rlt)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 

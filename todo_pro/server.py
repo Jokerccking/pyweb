@@ -1,6 +1,7 @@
 import socket
 import urllib.parse
 
+from routes.admin import route_admin
 from routes.ind import route_basic
 from routes.static import route_static
 from routes.todo import route_todo
@@ -49,6 +50,7 @@ def response_for_request(request):
     }
     route.update(route_basic)
     route.update(route_todo)
+    route.update(route_admin)
     response = route.get(path, error)
     return response(request)
 

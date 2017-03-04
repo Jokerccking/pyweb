@@ -6,6 +6,7 @@ class User(Model):
         self.id = int(form.get('id', -1))
         self.username = form.get('username')
         self.password = form.get('password')
+        self.role = int(form.get('role', 10))
 
     def validate_login(self):
         ms = self.all()

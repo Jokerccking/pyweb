@@ -1,4 +1,8 @@
+from os.path import dirname
 import random
+
+from jinja2 import Environment
+from jinja2 import FileSystemLoader
 
 from Models.user import User
 
@@ -8,9 +12,17 @@ session = {
     }
 }
 
+path = '{}/templates/'.format(dirname(dirname(__file__)))
+env = Environment(loader=FileSystemLoader(path))
 
-def redirect(path, headers=None):
-    r = 'HTTP/1.1 302 Moved Temporatily\r\nLocation: {}\r\n'.format(path)
+
+def template(mod, **kwargs):
+    t = env.get_template(mod)
+    return t.render(**kwargs)
+
+
+def redirect(p, headers=None):
+    r = 'HTTP/1.1 302 Moved Temporatily\r\nLocation: {}\r\n'.format(p)
     # TODO 判定headers为字典
     if headers is not None:
         for k, v in headers.items():
@@ -34,15 +46,8 @@ def login_required(routes):
     return func
 
 
-def templates(name):
-    path = 'templates/' + name
-    with open(path, 'r', encoding='utf-8') as f:
-        s = f.read()
-    return s
-
-
 def random_str():
-    seed = 'asdfeinflkd2309jhdifh782ttbjhedfr51d210f5we1fd0cfv'
+    seed = 'as2df3ei5nfl6kd2309jhd5i7fh782ttb9jhe8dfr51d210f5we1fd0cfv'
     s = ''
     for i in range(15):
         v = random.randint(0, len(seed) - 1)
@@ -57,3 +62,10 @@ def header_with_headers(headers=None):
         for k, v in headers.items():
             hs += '{}:{}\r\n'.format(k, v)
     return header + hs
+
+
+# def test_tmp():
+#     return template('login.html', um='roy')
+#
+# if __name__ == '__main__':
+#     log('path:::::::::', test_tmp())

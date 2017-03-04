@@ -11,6 +11,14 @@
         <br>
         <button type="submit">添加</button>
     </form>
-    <div>{{todos}}</div>
+    {% for td in tds %}
+    <div>
+        <h3>{{ td.id }}: {{ td.title }}.</h3>
+        <h4>
+        创建日期：{{ td.created_time }}    更新日期： {{ td.update_time }}<br>
+        <a href="/todo/edit">编辑</a>  <a href="/todo/delete">删除</a><br><br>
+        </h4>
+    </div>
+    {% endfor %}
 </body>
 </html>
