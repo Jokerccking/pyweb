@@ -1,14 +1,11 @@
 from Models.todo import ToDo
 from Models.user import User
-from routes import current_user, redirect, header_with_headers, templates
+from routes import redirect, header_with_headers, templates, current_user, login_required
 from utils import current_time
 
 
 def tdo(request):
-    um = current_user(request)
-    u = User.find_by(username=um)
-    if u is None:
-        return redirect('/')
+    u = current_user(request)
     tds = ToDo.find_all(uid=u.id)
     s = ''
     for td in tds:
@@ -24,10 +21,7 @@ def tdo(request):
 
 
 def add(request):
-    um = current_user(request)
-    u = User.find_by(username=um)
-    if u is None:
-        return redirect('/')
+    u = current_user(request)
     # TODO 如果请求的title是空的呢？
     # TODO 输入的空格显示为了‘+’号
     if request.method == 'POST':
@@ -40,10 +34,7 @@ def add(request):
 
 
 def delete(request):
-    um = current_user(request)
-    u = User.find_by(username=um)
-    if u is None:
-        return redirect('/')
+    u = current_user(request)
     # TODO  id 为字符串时的处理
     i = int(request.query.get('id', -10))
     td = ToDo.find_by(id=i)
@@ -54,10 +45,7 @@ def delete(request):
 
 
 def edit(request):
-    um = current_user(request)
-    u = User.find_by(username=um)
-    if u is None:
-        return redirect('/')
+    u = current_user(request)
     # TODO 处理id不为数字的情况
     i = int(request.query.get('id', -10))
     td = ToDo.find_by(id=i)
@@ -72,10 +60,7 @@ def edit(request):
 
 
 def update(request):
-    um = current_user(request)
-    u = User.find_by(username=um)
-    if u is None:
-        return redirect('/')
+    u = current_user(request)
     if request.method == 'POST':
         form = request.form()
         # TODO 处理id 不为数字的情况
@@ -90,9 +75,9 @@ def update(request):
 
 
 route_todo = {
-    '/todo': tdo,
-    '/todo/add': add,
-    '/todo/edit': edit,
-    '/todo/update': update,
-    '/todo/delete': delete,
+    '/todo': login_required(tdo),
+    '/todo/add': login_required(add),
+    '/todo/edit': login_required(edit),
+    '/todo/update': login_required(update),
+    '/todo/delete': login_required(delete),
 }

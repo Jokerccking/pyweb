@@ -1,55 +1,50 @@
 from Models.user import User
-from routes import current_user, templates, random_str, session, header_with_headers, redirect
+from routes import templates, random_str, session, header_with_headers, redirect, current_user
 
 
 def index(request):
-    header = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
-    username = current_user(request)
+    un = '[游客]'
+    u = current_user(request)
+    if u is not None:
+        un = u.username
+    header = header_with_headers()
     body = templates('index.html')
-    body = body.replace('{{um}}', username)
+    body = body.replace('{{um}}', un)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 
 
 def login(request):
-    method = request.method
-    un = current_user(request)
-    headers = {'Content-Type': 'text/html', }
     result = ''
-    if method == 'POST':
+    if request.method == 'POST':
         form = request.form()
         u = User.new(form)
         if u.validate_login() is True:
-            # un = u.username
             si = random_str()
             session[si] = {'username': u.username}
-            headers['Set-Cookie'] = 'user={}'.format(si)
-            # result = '登录成功，欢迎你：{}'.format(u.username)
-            return redirect('/todo', headers)
+            headers = {'Set-Cookie': 'user={}'.format(si)}
+            return redirect('/', headers)
         else:
-            un = u.username
-            result = '用户名或密码错误！'
-    header = header_with_headers(headers)
+            result = '用户名或密码错误，请重新输入！'
+    header = header_with_headers()
     body = templates('login.html')
     body = body.replace('{{result}}', result)
-    body = body.replace('{{username}}', un)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 
 
 def register(request):
-    method = request.method
     result = ''
-    if method == 'POST':
+    if request.method == 'POST':
         form = request.form()
         u = User.new(form)
-        if u.validate_register() is True:
+        if u.validate_register():
             u.save()
-            result = '注册成功！<br><prep>{}</prep>'.format(User.all())
+            result = '注册成功！'
         else:
             result = '用户名和密码都必须大于两个字符！'
 
-    header = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n'
+    header = header_with_headers()
     body = templates('register.html')
     body = body.replace('{{result}}', result)
     r = header + '\r\n' + body

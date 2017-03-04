@@ -11,6 +11,7 @@ session = {
 
 def redirect(path, headers=None):
     r = 'HTTP/1.1 302 Moved Temporatily\r\nLocation: {}\r\n'.format(path)
+    # TODO 判定headers为字典
     if headers is not None:
         for k, v in headers.items():
             r += '{}: {}\r\n'.format(k, v)
@@ -20,8 +21,17 @@ def redirect(path, headers=None):
 
 def current_user(request):
     session_id = request.cookies.get('user', '')
-    username = session.get(session_id, {}).get('username', '[游客]')
-    return username
+    un = session.get(session_id, {}).get('username', '[游客]')
+    u = User.find_by(username=un)
+    return u
+
+
+def login_required(routes):
+    def func(request):
+        if current_user(request) is None:
+            return redirect('/login')
+        return routes(request)
+    return func
 
 
 def templates(name):
@@ -47,19 +57,3 @@ def header_with_headers(headers=None):
         for k, v in headers.items():
             hs += '{}:{}\r\n'.format(k, v)
     return header + hs
-
-
-def validate_routes(route):
-    """
-    给函数增加代码
-    :param route:
-    :return:
-    """
-    def f(request):
-        um = current_user(request)
-        u = User.find_by(username=um)
-        if u is None:
-            redirect('/')
-        return route(request)
-
-    return f
