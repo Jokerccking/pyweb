@@ -1,5 +1,5 @@
 from Models.user import User
-from routes import current_user, templates, random_str, session, header_with_headers
+from routes import current_user, templates, random_str, session, header_with_headers, redirect
 
 
 def index(request):
@@ -20,12 +20,12 @@ def login(request):
         form = request.form()
         u = User.new(form)
         if u.validate_login() is True:
-            un = u.username
+            # un = u.username
             si = random_str()
             session[si] = {'username': u.username}
             headers['Set-Cookie'] = 'user={}'.format(si)
-            result = '登录成功，欢迎你：{}'.format(u.username)
-            # return redirect('/')
+            # result = '登录成功，欢迎你：{}'.format(u.username)
+            return redirect('/todo', headers)
         else:
             un = u.username
             result = '用户名或密码错误！'

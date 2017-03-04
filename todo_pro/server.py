@@ -4,7 +4,7 @@ import urllib.parse
 from routes.ind import route_basic
 from routes.static import route_static
 from routes.todo import route_todo
-from utils import log
+from utils import log, parse_path, parse_headers, parse_cookies, error
 
 
 class Request(object):
@@ -30,37 +30,6 @@ class Request(object):
         return self.method + self.path
 
 
-def parse_path(path):
-    query = {}
-    if '?' in path:
-        path, q = path.split('?')
-        qs = q.split('&')
-        for e in qs:
-            k, v = e.split('=')
-            query[k] = v
-    return path, query
-
-
-def parse_cookies(headers):
-    cookies = {}
-    cks = headers.get('Cookie')
-    if cks is not None:
-        cks = cks.split('; ')
-        for ck in cks:
-            k, v = ck.split('=')
-            cookies[k] = v
-    return cookies
-
-
-def parse_headers(rh):
-    headers = {}
-    li = rh.split('\r\n')
-    for e in li:
-        k, v = e.split(':', 1)
-        headers[k] = v
-    return headers
-
-
 def parse_request(r):
     # method, path, query, headers, cookies, body = '', '', {}, {}, {}, ''
     header, body = r.split('\r\n\r\n')
@@ -71,14 +40,6 @@ def parse_request(r):
     headers = parse_headers(rh)
     cookies = parse_cookies(headers)
     return method, path, query, headers, cookies, body
-
-
-def error(request, code=404):
-    log('请求错误，找不到资源：：：', request)
-    e = {
-        404: b'HTTP/1.1 404 NOT FOUND\r\n\r\n<h1>404 Not Found</h1>'
-    }
-    return e.get(code, b'')
 
 
 def response_for_request(request):

@@ -1,6 +1,7 @@
 from Models.todo import ToDo
 from Models.user import User
 from routes import current_user, redirect, header_with_headers, templates
+from utils import current_time
 
 
 def tdo(request):
@@ -13,7 +14,8 @@ def tdo(request):
     for td in tds:
         ed = '<a href="/todo/edit?id={}">编辑</a>'.format(td.id)
         de = '<a href="/todo/delete?id={}">删除</a>'.format(td.id)
-        s += '<h3>{}: {}    {}  {}</h3><br>'.format(td.id, td.title, ed, de)
+        s += '<h3>{}: {}    创建时间:{}  更新时间:{}    {}  {}</h3><br>'.\
+            format(td.id, td.title, td.created_time, td.update_time, ed, de)
     header = header_with_headers()
     body = templates('todo.html')
     body = body.replace('{{todos}}', s)
@@ -26,10 +28,13 @@ def add(request):
     u = User.find_by(username=um)
     if u is None:
         return redirect('/')
+    # TODO 如果请求的title是空的呢？
+    # TODO 输入的空格显示为了‘+’号
     if request.method == 'POST':
         form = request.form()
         td = ToDo.new(form)
         td.uid = u.id
+        td.created_time = current_time()
         td.save()
     return redirect('/todo')
 
@@ -79,6 +84,7 @@ def update(request):
         if td is None or td.uid != u.id:
             return redirect('/todo')
         td.title = form.get('title', td.title)
+        td.update_time = current_time()
         td.save()
     return redirect('/todo')
 

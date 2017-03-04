@@ -3,9 +3,7 @@ from Models import Model
 
 class User(Model):
     def __init__(self, form):
-        self.id = form.get('id', None)
-        if self.id is not None:
-            self.id = int(self.id)
+        self.id = int(form.get('id', -1))
         self.username = form.get('username')
         self.password = form.get('password')
 

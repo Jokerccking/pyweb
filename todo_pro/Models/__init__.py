@@ -59,6 +59,7 @@ class Model(object):
         return [cls.new(m) for m in models]
 
     @classmethod
+    # TODO 返回一个字典？
     def find_by(cls, **kwargs):
         """
         根据属性值从数据库找出第一个匹配的对象
@@ -100,7 +101,7 @@ class Model(object):
         """
         ms = self.all()
         if hasattr(self, 'id'):
-            if self.id is None:
+            if self.id == -1:
                 i = 0
                 if len(ms) > 0:
                     i = getattr(ms[-1], 'id') + 1
