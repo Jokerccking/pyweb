@@ -3,6 +3,7 @@ import urllib.parse
 
 from routes.admin import route_admin
 from routes.ind import route_basic
+from routes.microb import route_microb
 from routes.static import route_static
 from routes.todo import route_todo
 from utils import log, parse_path, parse_headers, parse_cookies, error
@@ -51,6 +52,7 @@ def response_for_request(request):
     route.update(route_basic)
     route.update(route_todo)
     route.update(route_admin)
+    route.update(route_microb)
     response = route.get(path, error)
     return response(request)
 

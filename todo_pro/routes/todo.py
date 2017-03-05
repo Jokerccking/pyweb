@@ -12,7 +12,7 @@ def tdo(request):
     return r.encode(encoding='utf-8')
 
 
-def add(request):
+def td_add(request):
     u = current_user(request)
     # TODO 如果请求的title是空的呢？
     # TODO 输入的空格显示为了‘+’号
@@ -25,7 +25,7 @@ def add(request):
     return redirect('/todo')
 
 
-def delete(request):
+def td_delete(request):
     u = current_user(request)
     # TODO  id 为字符串时的处理
     i = int(request.query.get('id', -10))
@@ -36,7 +36,7 @@ def delete(request):
     return redirect('/todo')
 
 
-def edit(request):
+def td_edit(request):
     u = current_user(request)
     # TODO 处理id不为数字的情况
     i = int(request.query.get('id', -10))
@@ -45,12 +45,12 @@ def edit(request):
         return redirect('/todo')
     header = header_with_headers()
     # TODO str(td.id)????
-    body = template('edit.html', id=td.id, title=td.title)
+    body = template('td_edit.html', id=td.id, title=td.title)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 
 
-def update(request):
+def td_update(request):
     u = current_user(request)
     if request.method == 'POST':
         form = request.form()
@@ -67,8 +67,8 @@ def update(request):
 
 route_todo = {
     '/todo': login_required(tdo),
-    '/todo/add': login_required(add),
-    '/todo/edit': login_required(edit),
-    '/todo/update': login_required(update),
-    '/todo/delete': login_required(delete),
+    '/todo/td_add': login_required(td_add),
+    '/todo/td_edit': login_required(td_edit),
+    '/todo/td_update': login_required(td_update),
+    '/todo/td_delete': login_required(td_delete),
 }

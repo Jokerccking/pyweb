@@ -94,6 +94,21 @@ class Model(object):
                     break
         return mods
 
+    @classmethod
+    def exp(cls, **kwargs):
+        """
+        返回一个不含参数对应的实例的所有Model实例
+        :param kwargs:
+        :return:
+        """
+        ms = cls.all()
+        for m in ms:
+            for item in m.__dict__.items():
+                if item == list(kwargs.items())[0]:
+                    ms.remove(m)
+                    break
+        return ms
+
     def save(self):
         """
         把对象的所有属性和值保存到数据库对应的文件中
@@ -113,11 +128,10 @@ class Model(object):
                         ms[ms.index(m)] = self
         properties = [m.__dict__ for m in ms]
         save(properties, self.db_path())
-        return properties
 
     def remove(self):
         """
-        从数据库中删除该对象的属性值
+        从数据库中删除该对象
         :return:
         """
         ms = self.all()

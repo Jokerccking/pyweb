@@ -38,12 +38,21 @@ def current_user(request):
     return u
 
 
-def login_required(routes):
+def login_required(route):
     def func(request):
         if current_user(request) is None:
             return redirect('/login')
-        return routes(request)
+        return route(request)
     return func
+
+
+def role_required(route):
+    def f(request):
+        u = current_user(request)
+        if u is None or u.role != 1:
+            return redirect('/')
+        return route(request)
+    return f
 
 
 def random_str():
