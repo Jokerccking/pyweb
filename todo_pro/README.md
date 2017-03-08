@@ -52,3 +52,10 @@
 6. 删除评论功能。评论者和博主均有权限删除，当微博删除时，评论一起删除。
 7. 代码待优化...
 
+## Version 1.5
+---
+#### description
+* delete idea config
+* tobe continued...
+
+
