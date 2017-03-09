@@ -1,5 +1,6 @@
 import socket
 import urllib.parse
+import _thread
 
 from routes.admin import route_admin
 from routes.ind import route_basic
@@ -57,26 +58,35 @@ def response_for_request(request):
     return response(request)
 
 
-def run(host='', port=3000):
+def process(connection):
+
+    req = connection.recv(1024)
+    req = req.decode('utf-8')
+    if len(req.split()) < 2:
+       connection.close()
     r = Request()
+    r.method, r.path, r.query, r.headers, r.cookies, r.body = parse_request(req)
+
+    resp = response_for_request(r)
+    connection.sendall(resp)
+
+    try:
+        resp.decode('utf-8').replace('\r\n', '\n')
+    except Exception as e:
+        log('Exception:::', e)
+
+    connection.close()
+
+
+def run(host='', port=3000):
     with socket.socket() as s:
         s.bind((host, port))
-        log('服务器监听端口：', port)
+        s.listen(5)
+        log('port server listened:::', port)
         while True:
-            s.listen(5)
             connection, address = s.accept()
 
-            req = connection.recv(1024)
-            req = req.decode('utf-8')
-            if len(req.split()) < 2:
-                continue
-            r.method, r.path, r.query, r.headers, r.cookies, r.body = '', '', {}, {}, {}, ''
-            r.method, r.path, r.query, r.headers, r.cookies, r.body = parse_request(req)
-
-            resp = response_for_request(r)
-            connection.sendall(resp)
-
-            connection.close()
+            _thread.start_new_thread(process, (connection,))
 
 
 if __name__ == '__main__':

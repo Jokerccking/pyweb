@@ -38,7 +38,7 @@ def parse_cookies(headers):
         cks = cks.split('; ')
         for ck in cks:
             k, v = ck.split('=')
-            cookies[k] = v
+            cookies[k.strip()] = v.strip()
     return cookies
 
 

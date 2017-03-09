@@ -58,4 +58,11 @@
 * delete idea config
 * tobe continued...
 
+## Version 1.6
+---
+### description
+* remove badwhitespace in request.cookie
+* add thread in server
+* LF and CR tobe complete...
+
 
