@@ -5,8 +5,11 @@ protocol_port = {
     'http': 80,
     'https': 443,
 }
+
+
 def log(*args, **kwargs):
     print(*args, **kwargs)
+
 
 def path_with_query(path, query):
     """
@@ -69,7 +72,7 @@ def response_by_socket(s):
     while True:
         r = s.recv(buffer_size)
         if len(r) == 0:
-            break;
+            break
         response += r
     return response.decode('utf-8')
 
@@ -84,6 +87,7 @@ def parse_response(response):
         headers[k] = v
     return status_code, headers, body
 
+
 def parse_html(body):
     cn_name = ''
     en_name = ''
@@ -93,8 +97,8 @@ def parse_html(body):
     movie = []
 
     for line in lines:
-        # parse movie name
-        if '<span class="title">' in line:
+        # 解析电影名称
+        if '<span class="title">'in line:
             m = line.index('>') + 1
             n = line.rindex('<')
             if ';' in line:
@@ -102,30 +106,32 @@ def parse_html(body):
                 en_name = line[m:n]
             else:
                 cn_name = line[m:n]
+            log('nama:::', cn_name)
             continue
 
-        #parse score
-        if '<span class="rating_num" property="v:average">' in line:
-            m = line.index('>') + 1
+        # 解析评分
+        if '<span class="rating_num" property="v:average">'in line:
+            m = line.index('>')+1
             n = line.rindex('<')
             score_num = float(line[m:n])
             continue
 
-        # parse number of person
+        # 解析评价人数
         if line.endswith('人评价</span>'):
             m = line.index('>') + 1
-            n = line.rindex('<') -3
+            n = line.rindex('<') - 3
             interest_num = int(line[m:n])
             continue
 
-        # parse quote,update list
+        # 解析引语,更新列表
         if '<span class="inq">' in line:
             m = line.index('>') + 1
             n = line.rindex('<')
             inq = line[m:n]
             movie.append((cn_name, en_name, score_num, interest_num, inq))
 
-        return movie
+    return movie
+
 
 def crawl(url, query):
     url = path_with_query(url, query)
