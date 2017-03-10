@@ -13,7 +13,6 @@ def log(*args, **kwargs):
 
 def path_with_query(path, query):
     """
-
     """
     s = []
     for k, v in query.items():
