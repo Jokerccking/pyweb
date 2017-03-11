@@ -2,6 +2,10 @@ from models import Model
 from time import time
 
 class Blog(Model):
+    @classmethod
+    def bcontent(cls, bid):
+        return cls.find(bid)
+
     def __init__(self, form):
         self.id = None
         self.uid = form.get('uid')
@@ -9,21 +13,23 @@ class Blog(Model):
         self.ct = int(time.time())
         self.ut = self.ct
 
-    def json(self):
+    def to_dict(self):
         pass
 
-    def update(self):
-        pass
+    def update(self, content):
+        self.ut = int(time.time())
+        self.content = content
 
     def comments(self):
-        pass
+        return Comment.find_all(bid = self.id)
 
 
 class Comment(Model):
     def __init__(self, form):
         self.id = None
-        self.cotent = form.get('content', '')
+        self.id = form.get('uid')
         self.bid = form.get('bid', '')
+        self.cotent = form.get('content', '')
         self.ct = int(time.time())
 
     def json(self):
