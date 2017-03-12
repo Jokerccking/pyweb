@@ -1,7 +1,9 @@
 import os.path
 import json
-from jinja2 import Environment, FileSystemloader
+from jinja2 import Environment, FileSystemLoader
 import random
+from models.user import User
+
 
 session = {}
 
@@ -42,13 +44,13 @@ def confirm(route):
 
 
 def current(request):
-    sid = request.cookie.get('user')
-    uid = session.get('sid','')
+    sid = request.cookies.get('user','')
+    uid = int(session.get(sid, -1))
     return User.uid(uid)
 
 
 # TODO code block?
-path = '{}/templates'.format(os.path.dirname(__file__))
+path = 'templates'.format(os.path.dirname(__file__))
 loader = FileSystemLoader(path)
 env = Environment(loader=loader)
 

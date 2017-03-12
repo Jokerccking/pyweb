@@ -5,8 +5,10 @@ def load(path):
     use json moudle get content in the file
     """
     with open(path, 'r', encoding='utf-8') as f:
-        s = f.read
-        return json.load(s)
+        s = f.read()
+        if s == '':
+            s = '[]'
+        return json.loads(s)
 
 
 def save(path, data):
@@ -24,8 +26,8 @@ class Model(object):
     """
     @classmethod
     def data_path(cls):
-        name = cls.__name__()
-        return 'data/{}.txt'.format
+        name = cls.__name__
+        return 'data/{}.txt'.format(name)
 
     @classmethod
     def new(cls, form):

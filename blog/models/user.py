@@ -1,7 +1,6 @@
 from models import Model
-from user import User
-from blog import Blog
-from comment import Comment
+from models.blog import Blog
+from models.blog import Comment
 
 class User(Model):
     @classmethod
@@ -21,11 +20,11 @@ class User(Model):
         return hash2
 
     def validate_login(self):
-        b = False
+        b = None
         us = User.all()
         for u in us:
-            if u.username == self.username && u.password == self.password:
-                b = True
+            if u.username == self.username and u.password == self.password:
+                b = u.id
                 break
         return b
 
