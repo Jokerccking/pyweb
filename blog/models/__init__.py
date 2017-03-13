@@ -11,12 +11,12 @@ def load(path):
         return json.loads(s)
 
 
-def save(path, data):
+def save(data,path):
     """
     save data into file by json moudle
     """
-    data = json.dumps(data, ensuer_ascii=Fale, indent=2)
-    with open(data, 'w+', encoding='utf-8') as f:
+    data = json.dumps(data, ensure_ascii=False, indent=2)
+    with open(path, 'w+', encoding='utf-8') as f:
         f.write(data)
 
 

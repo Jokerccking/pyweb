@@ -1,3 +1,4 @@
+from utils import log
 from models import Model
 from models.blog import Blog
 from models.blog import Comment
@@ -7,8 +8,8 @@ class User(Model):
     def uid(cls, uid):
         return cls.find(uid)
 
-    def __init__(self):
-        self.id = None
+    def __init__(self,form):
+        self.id = form.get('id')
         self.username = form.get('username', '')
         self.password = form.get('password', '')
         self.role = 10
@@ -21,6 +22,7 @@ class User(Model):
 
     def validate_login(self):
         b = None
+        #self.password = self.salted_password(self.password)
         us = User.all()
         for u in us:
             if u.username == self.username and u.password == self.password:
@@ -30,7 +32,7 @@ class User(Model):
 
     def validate_register(self):
         us = User.all()
-        self.password = self.salted_password(self.password)
+        #self.password = self.salted_password(self.password)
         for u in us:
             if u.username == self.username:
                 return None

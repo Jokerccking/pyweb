@@ -16,7 +16,7 @@ def sid():
 
 
 def redirect(url):
-    header = 'HTTP/1.1 200 OK\r\nContent-Type: text/html\r\nLocation: {}\r\n'.format(url)
+    header = 'HTTP/1.1 302 Temporarily Moved\r\nContent-Type: text/html\r\nLocation: {}\r\n'.format(url)
     body = ''
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')

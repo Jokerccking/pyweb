@@ -22,17 +22,18 @@ class Request(object):
         f = {}
         li = self.body.split('&')
         for e in li:
-            k, v = e.split('&')
-            key = urllib.parse.unquote(k)
-            value = urllib.parse.unquote(v)
-            f[key] = value
+            if '=' in e:
+                k, v = e.split('=')
+                key = urllib.parse.unquote(k)
+                value = urllib.parse.unquote(v)
+                f[key] = value
         return f
 
     def __repr__(self):
         return self.method + self.path
 
     def bodyparse(self):
-        return JSON.load(self.body)
+        return JSON.loads(self.body)
 
 
 def parse_path(path):
@@ -41,19 +42,20 @@ def parse_path(path):
         path, q = path.split('?')
         qs = q.split('&')
         for e in qs:
-            k, v = e.split('=')
+            k, v = e.split('=',1)
             query[k] = v
     return path, query
 
 
 def parse_cookies(headers):
     cookies = {}
-    cks = headers.get('Cookies')
+    cks = headers.get('Cookie')
     if cks is not None:
-        cks = cks.split(':')
+        cks = cks.split(';')
         for ck in cks:
-            k, v = ck.split('=')
-            cookies[k.strip()] = v.strip()
+            if '=' in ck:
+                k, v = ck.split('=')
+                cookies[k.strip()] = v.strip()
     return cookies
 
 
@@ -61,13 +63,15 @@ def parse_headers(rh):
     headers = {}
     li = rh.split('\r\n')
     for e in li:
-        k, v = e.split(':', 1)
-        headers[k] = v
+        if ':' in e:
+            k, v = e.split(':', 1)
+            k, v = k.strip(), v.strip()
+            headers[k] = v
     return headers
 
 
 def parse_request(r):
-    header, body = r.split('\r\n\r\n',1)
+    header, body = r.split('\r\n\r\n', 1)
     rl, rh = header.split('\r\n',1)
     method = rl.split()[0]
     p = rl.split()[1]
@@ -79,7 +83,7 @@ def parse_request(r):
 
 # TODO ???
 def error(request, code=404):
-    log('error::::::Not Found')
+    log(request.path,'error::::::Not Found')
     d = {
         404: b'HTTP/1.1 404 NotFound\r\n\r\n',
     }
@@ -102,8 +106,16 @@ def process(connection):
     req = connection.recv(1024).decode('utf-8')
     if (len(req.split())) < 2:
         connection.close()
+    try:
+        req.replace('\n','\r\n')
+        #log('request change \r\n done')
+    except Exception as e:
+        log('request\r\nexception',e)
+
     r = Request()
     r.method, r.path, r.query, r.headers, r.cookies, r.body = parse_request(req)
+    #log('original request::',req)
+    log('path::::::',r.path)
 
     resp = response_for_request(r)
     connection.sendall(resp)
