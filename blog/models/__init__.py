@@ -32,8 +32,7 @@ class Model(object):
     @classmethod
     def new(cls, form):
         m= cls(form)
-        m.save()
-        return m
+        return m.save()
 
     @classmethod
     def all(cls):
@@ -47,15 +46,6 @@ class Model(object):
         for m in ms:
             if m.id == i:
                 mod = m
-        return mod
-
-    @classmethod
-    def find_all(cls, i):
-        ms = cls.all()
-        mod = []
-        for m in ms:
-            if m.id == i:
-                mod.append(m)
         return mod
 
     @classmethod
@@ -78,17 +68,17 @@ class Model(object):
 
     def save(self):
         ms = self.all()
-        i = getattr(self, 'id')
-        if i is None:
+        if self.id is None:
             i = 0
             if len(ms) > 0:
-                i = getattr(ms[-1], 'id') + 1
-            setattr(self, 'id', i)
+                i = ms[-1].id + 1
+            self.id = i
             ms.append(self)
         else:
             for index,obj in enumerate(ms):
-                if obj.id == i:
+                if obj.id == self.id:
                     ms[index] = self
         p = [m.__dict__ for m in ms]
         save(p, self.data_path())
+        return self
 

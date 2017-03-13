@@ -3,6 +3,7 @@ import json
 from jinja2 import Environment, FileSystemLoader
 import random
 from models.user import User
+from utils import log
 
 
 session = {}
@@ -30,6 +31,8 @@ def html_response(body):
 
 def json_response(body):
     header = 'HTTP/1.1 200 OK\r\nContect-Type: application/json\r\n'
+    body = json.dumps(body,ensure_ascii=False)
+    log('body::::::::::', body)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 

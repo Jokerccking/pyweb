@@ -1,5 +1,6 @@
 from utils import log
 from models import Model
+from models.todo import Todo
 from models.blog import Blog
 from models.blog import Comment
 
@@ -36,8 +37,7 @@ class User(Model):
         for u in us:
             if u.username == self.username:
                 return None
-        self.save()
-        return self
+        return self.save()
 
     def todos(self):
         return Todo.find_all(self.id)

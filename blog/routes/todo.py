@@ -9,7 +9,7 @@ def todo(request):
     #log('u:::',u)
     if u is None:
         return redirect('/login')
-    body = template('todo.html',um=u.username)
+    body = template('todo.html',um=u.username,uid=u.id)
     return html_response(body)
 
 route_todo = {

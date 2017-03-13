@@ -5,8 +5,9 @@ import json
 
 from routes.user import route_user
 from routes.todo import route_todo
+from routes.todo_api import route_todo_api
 from routes.blog import route_blog
-from routes.static import static
+from routes.static import route_static
 from utils import log
 
 class Request(object):
@@ -32,17 +33,17 @@ class Request(object):
     def __repr__(self):
         return self.method + self.path
 
-    def bodyparse(self):
-        return JSON.loads(self.body)
+    def json_form(self):
+        return json.loads(self.body)
 
 
 def parse_path(path):
     query = {}
     if '?' in path:
-        path, q = path.split('?')
+        path, q = path.split('?',1)
         qs = q.split('&')
         for e in qs:
-            k, v = e.split('=',1)
+            k, v = e.split('=')
             query[k] = v
     return path, query
 
@@ -93,10 +94,11 @@ def error(request, code=404):
 def response_for_request(request):
     path = request.path
     route = {
-        '/static': static,
+        '/static': route_static,
     }
     route.update(route_user)
     route.update(route_todo)
+    route.update(route_todo_api)
     route.update(route_blog)
     response = route.get(path, error)
     return response(request)
@@ -104,7 +106,7 @@ def response_for_request(request):
 
 def process(connection):
     req = connection.recv(1024).decode('utf-8')
-    if (len(req.split())) < 2:
+    if (len(req.split())) < 4:
         connection.close()
     try:
         req.replace('\n','\r\n')
@@ -119,10 +121,10 @@ def process(connection):
 
     resp = response_for_request(r)
     connection.sendall(resp)
-    try:
-        resp.decode('utf-8').replace('\r\n','\n')
-    except Exception as e:
-        log('Exception::::', e)
+    #try:
+    #    resp.decode('utf-8').replace('\r\n','\n')
+    #except Exception as e:
+    #    log('Exception::::', e)
 
     connection.close()
 

@@ -3,7 +3,7 @@ from time import time
 
 class Blog(Model):
     @classmethod
-    def bcontent(cls, bid):
+    def bid(cls, bid):
         return cls.find(bid)
 
     def __init__(self, form):

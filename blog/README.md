@@ -9,4 +9,13 @@
 * New Todo web
 * Frame tobe continue...
 
+## Ver 1.2
+---
+
+**instruction**
+
+* Add js file
+* Debug static route
+* Frame tobe continue...
+
 

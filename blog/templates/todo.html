@@ -8,15 +8,17 @@
 	<body>
 		<h1>Welcome to ToDo Page</h1>
 		<h3>Hello, {{um}}!Ur ToDo List:</h3>
-		<div id="id-tdadd">
-			<input class="title" value="">
+		<div id="id-tdadd" data-id="{{uid}}">
+			<input class="content" value="">
 			<button class="tdadd" type="submit">Add Todo</button>
 		</div>
+		<h2>All the Todos:</h2>
 		<div id="id-tdlist">
 
 
 		</div>
 
-		<script src=""></script>
+		<script src="/static?file=basic.js"></script>
+		<script src="/static?file=todo_api.js"></script>
 	</body>
 </html>
