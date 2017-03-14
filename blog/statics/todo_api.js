@@ -1,11 +1,13 @@
 var todoTemplate = function(todo){
 	var t =	`
 		<div class="todo-cell" data-id="${todo.id}">
-			<div>${todo.content}</div>
-			<time>"update time: ${todo.ut}"</time>
+			<div class="todo-content">${todo.content}</div>
+			Update time: <time> ${todo.ut}</time>
+			<button class="todo-delete">Delete</button><br>
+			<input class="todo-input">
 			<button class="todo-update">Update</button>
-			<button class="todo-delete">Delete</button>
 		</div>
+		<br>
 		`;	
 	return t;
 }	
@@ -55,7 +57,6 @@ var todoDelete = function() {
 			var form = { 
 				id: tdCell.dataset.id
 			};
-			log("form:::",tdCell.dataset.id,form);
 			var callBack = function(resp) {
 				tdCell.remove();
 			};
@@ -67,10 +68,33 @@ var todoDelete = function() {
 };
 
 
+var todoUpdate = function() {
+	var ele = e("#id-tdlist");
+	var clickEvent = function(event) {
+		var tar = event.target;
+		if (tar.classList.contains("todo-update")) {
+			var tdCell = tar.parentElement;
+			var form = {
+				tid: tdCell.dataset.id,
+				content: tdCell.querySelector("input").value
+			};
+			var callBack = function(resp) {
+				var td = JSON.parse(resp);
+				tdCell.querySelector(".todo-content").innerHTML = ${td.content};
+				tdCell.querySelector("time").innerHTML = ${td.ut};
+			};
+		
+			ajax("POST","/todo/api/update",form,callBack);
+		}
+	};
+	bindClickEvent(ele, clickEvent);
+}
+
 var main = function() {
 	todoAll();
 	todoAdd();
 	todoDelete();
+	todoUpdate();
 };
 
 main()

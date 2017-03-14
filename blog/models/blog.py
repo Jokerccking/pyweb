@@ -10,8 +10,8 @@ class Blog(Model):
         self.id = form.get('id')
         self.uid = form.get('uid')
         self.content = form.get('content', '')
-        self.ct = int(time.time())
-        self.ut = self.ct
+        self.ct = form.get('ct',int(time.time()))
+        self.ut = form.get('ut',self.ct)
 
     def to_dict(self):
         pass
@@ -30,7 +30,7 @@ class Comment(Model):
         self.id = form.get('uid')
         self.bid = form.get('bid', '')
         self.cotent = form.get('content', '')
-        self.ct = int(time.time())
+        self.ct = form.get('ct', int(time.time()))
 
     def json(self):
         pass

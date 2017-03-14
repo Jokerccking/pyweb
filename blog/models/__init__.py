@@ -52,16 +52,12 @@ class Model(object):
     @classmethod
     def pop(cls, i):
         ms = cls.all()
-        log('ms :: i::',ms,i)
         mod = None
         for index,obj in enumerate(ms):
-            log('obj', obj, obj.id)
             if obj.id == i:
                 mod = ms.pop(index)
-                log('mod', mod)
                 p = [m.__dict__ for m in ms]
                 save(p, cls.data_path())
-        log('pop::::',mod)
         return mod
 
 

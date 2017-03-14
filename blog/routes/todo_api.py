@@ -20,24 +20,34 @@ def td_api_all(request):
 def td_api_add(request):
     u = current(request)
     form = request.json_form()
-    if u is None and form.get('uid') is None:
-        return redirect('/login')
+    if u is None or form.get('uid') is None:
+        return redirect('/todo')
     td = Todo.new(form)
     return json_response(td.to_dict())
 
 
 def td_api_delete(request):
     u = current(request)
-    tid = request.json_form().get('id')
-    log('td:::::id',tid)
-    if u is None and tid is None:
+    tdid = request.json_form().get('id')
+    if u is None or tdid is None:
         return redirect('/todo')
-    td = Todo.pop(tid)
+    td = Todo.pop(int(tdid))
     return json_response(td.to_dict())
 
+
+def td_api_update(request):
+    u = current(request)
+    form = request.json_form()
+    tdid = form.get('tid')
+    if u is None or tdid is None:
+        return redirect('/todo')
+    td = Todo.tid(int(tdid))
+    td = td.update(form.get('content'))
+    return json_response(td.to_dict())
 
 route_todo_api = {
     '/todo/api/all': td_api_all,
     '/todo/api/add': td_api_add,
     '/todo/api/delete': td_api_delete,
+    '/todo/api/update': td_api_update,
 }

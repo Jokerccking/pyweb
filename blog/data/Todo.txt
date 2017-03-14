@@ -1,18 +1,10 @@
 [
   {
-    "completed": false,
-    "content": "Todo test1",
-    "ct": 1489503099,
     "uid": 0,
-    "id": 0,
-    "ut": 1489503099
-  },
-  {
+    "ct": 1489508229,
     "completed": false,
-    "content": "Todo test2",
-    "ct": 1489503099,
-    "uid": 0,
     "id": 1,
-    "ut": 1489503099
+    "ut": 1489508229,
+    "content": "Todo test2"
   }
 ]

@@ -11,16 +11,33 @@ class Todo(Model):
                 ms.append(td)
         return ms
 
+    @classmethod
+    def tid(cls, i):
+        ms = cls.all()
+        td = None
+        for m in ms:
+            if m.id == i:
+                td = m
+                break
+        return td
+
     def __init__(self, form):
         self.id = form.get('id')
         self.uid = int(form.get('uid'))
         self.content = form.get('content','')
-        self.ct = int(time.time())
-        self.ut = self.ct
-        self.completed = False
+        self.ct = form.get('ct',int(time.time()))
+        self.ut = form.get('ut',self.ct)
+        self.completed = form.get('complete',False)
+
+
+    def update(self,content):
+        self.ut = int(time.time())
+        self.content = content
+        return self.save()
 
     def complete(self):
         self.completed = True
+        return self.save()
 
     def update(self, content):
         self.ut = int(time.time())

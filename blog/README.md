@@ -18,4 +18,14 @@
 * Debug static route
 * Frame tobe continue...
 
+## Ver 1.3
+---
+
+**instruction**
+
+* New ToDo Web
+* CRUD basic
+* None test
+* Frame tobe continue...
+
 
