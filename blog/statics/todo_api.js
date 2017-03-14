@@ -16,7 +16,7 @@ var todoAll = function() {
 
 		for (var i=0; i<tds.length; i++) {
 		  var tdCell = todoTemplate(tds[i]);
-			var tdList = e("#id-tdList");
+			var tdList = e("#id-tdlist");
 			tdList.insertAdjacentHTML("beforeend",tdCell);
 		}
 		log("todos load done");
@@ -47,20 +47,30 @@ var todoAdd = function() {
 
 
 var todoDelete = function() {
-	var form = { 
+	var ele = e("#id-tdlist");
+	var clickEvent = function(event) {
+		var targ = event.target;
+		if (targ.classList.contains("todo-delete")){
+			var tdCell = targ.parentElement;
+			var form = { 
+				id: tdCell.dataset.id
+			};
+			log("form:::",tdCell.dataset.id,form);
+			var callBack = function(resp) {
+				tdCell.remove();
+			};
 
+			ajax("POST","/todo/api/delete",form,callBack);
+		}
 	};
-	var callBack = function(resp) {
-
-	};
-
-	ajax("POST","/todo/api/delete",form,callBack);
+	bindClickEvent(ele,clickEvent);
 };
 
 
 var main = function() {
 	todoAll();
 	todoAdd();
+	todoDelete();
 };
 
 main()

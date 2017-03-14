@@ -34,6 +34,8 @@ class Request(object):
         return self.method + self.path
 
     def json_form(self):
+        #log("req.body::",self.body)
+        #log("jsonform::", json.loads(self.body))
         return json.loads(self.body)
 
 

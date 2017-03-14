@@ -12,9 +12,9 @@ class Todo(Model):
         return ms
 
     def __init__(self, form):
-        self.id = None
+        self.id = form.get('id')
         self.uid = int(form.get('uid'))
-        self.cotent = form.get('content','')
+        self.content = form.get('content','')
         self.ct = int(time.time())
         self.ut = self.ct
         self.completed = False

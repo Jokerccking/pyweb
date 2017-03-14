@@ -26,8 +26,18 @@ def td_api_add(request):
     return json_response(td.to_dict())
 
 
+def td_api_delete(request):
+    u = current(request)
+    tid = request.json_form().get('id')
+    log('td:::::id',tid)
+    if u is None and tid is None:
+        return redirect('/todo')
+    td = Todo.pop(tid)
+    return json_response(td.to_dict())
+
+
 route_todo_api = {
     '/todo/api/all': td_api_all,
     '/todo/api/add': td_api_add,
-    #'/todo/api/delete': td_api_delete,
+    '/todo/api/delete': td_api_delete,
 }

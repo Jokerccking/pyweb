@@ -7,7 +7,7 @@ class Blog(Model):
         return cls.find(bid)
 
     def __init__(self, form):
-        self.id = None
+        self.id = form.get('id')
         self.uid = form.get('uid')
         self.content = form.get('content', '')
         self.ct = int(time.time())

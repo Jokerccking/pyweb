@@ -32,7 +32,6 @@ def html_response(body):
 def json_response(body):
     header = 'HTTP/1.1 200 OK\r\nContect-Type: application/json\r\n'
     body = json.dumps(body,ensure_ascii=False)
-    log('body::::::::::', body)
     r = header + '\r\n' + body
     return r.encode(encoding='utf-8')
 
