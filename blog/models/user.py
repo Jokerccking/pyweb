@@ -6,8 +6,8 @@ from models.blog import Comment
 
 class User(Model):
     @classmethod
-    def uid(cls, uid):
-        return cls.find(uid)
+    def find_all(cls):
+        return cls.all()
 
     def __init__(self,form):
         self.id = form.get('id')

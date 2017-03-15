@@ -47,6 +47,7 @@ class Model(object):
         for m in ms:
             if m.id == i:
                 mod = m
+                break
         return mod
 
     @classmethod
@@ -59,6 +60,15 @@ class Model(object):
                 p = [m.__dict__ for m in ms]
                 save(p, cls.data_path())
         return mod
+
+    @classmethod
+    def find_all(cls,uid):
+        ums = []
+        ms = cls.all()
+        for m in ms:
+            if m.uid == uid:
+                ums.append(m)
+        return ums
 
 
     def __repr__(self):

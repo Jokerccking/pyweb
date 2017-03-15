@@ -48,7 +48,7 @@ def confirm(route):
 def current(request):
     sid = request.cookies.get('user','')
     uid = int(session.get(sid, -1))
-    return User.uid(uid)
+    return User.find(uid)
 
 
 # TODO code block?

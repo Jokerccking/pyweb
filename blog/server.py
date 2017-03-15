@@ -7,6 +7,7 @@ from routes.user import route_user
 from routes.todo import route_todo
 from routes.todo_api import route_todo_api
 from routes.blog import route_blog
+from routes.blog_api import route_blog_api
 from routes.static import route_static
 from utils import log
 
@@ -102,6 +103,7 @@ def response_for_request(request):
     route.update(route_todo)
     route.update(route_todo_api)
     route.update(route_blog)
+    route.update(route_blog_api)
     response = route.get(path, error)
     return response(request)
 

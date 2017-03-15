@@ -7,7 +7,7 @@ def blog(request):
     u = current(request)
     if u is None:
         return redirect('/')
-    body = template('blog.html',um=u.username)
+    body = template('blog.html',um=u.username,uid=u.id)
     return html_response(body)
 
 route_blog = {

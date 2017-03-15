@@ -28,4 +28,13 @@
 * None test
 * Frame tobe continue...
 
+## Ver 1.4
+---
+
+**instruction**
+
+* New Blog Web
+* CRUD basic
+* Comment function tobe continue...
+
 

@@ -80,8 +80,8 @@ var todoUpdate = function() {
 			};
 			var callBack = function(resp) {
 				var td = JSON.parse(resp);
-				tdCell.querySelector(".todo-content").innerHTML = ${td.content};
-				tdCell.querySelector("time").innerHTML = ${td.ut};
+				tdCell.querySelector(".todo-content").innerHTML = td.content;
+				tdCell.querySelector("time").innerHTML = td.ut;
 			};
 		
 			ajax("POST","/todo/api/update",form,callBack);

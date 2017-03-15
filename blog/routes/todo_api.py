@@ -41,9 +41,9 @@ def td_api_update(request):
     tdid = form.get('tid')
     if u is None or tdid is None:
         return redirect('/todo')
-    td = Todo.tid(int(tdid))
-    td = td.update(form.get('content'))
-    return json_response(td.to_dict())
+    td = Todo.find(int(tdid))
+    utd = td.update(form.get('content'))
+    return json_response(utd.to_dict())
 
 route_todo_api = {
     '/todo/api/all': td_api_all,

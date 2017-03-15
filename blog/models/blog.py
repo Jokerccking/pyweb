@@ -1,37 +1,29 @@
 from models import Model
-from time import time
+import time
+from utils import log
 
 class Blog(Model):
-    @classmethod
-    def bid(cls, bid):
-        return cls.find(bid)
-
     def __init__(self, form):
         self.id = form.get('id')
-        self.uid = form.get('uid')
+        self.uid = int(form.get('uid'))
         self.content = form.get('content', '')
         self.ct = form.get('ct',int(time.time()))
         self.ut = form.get('ut',self.ct)
 
-    def to_dict(self):
-        pass
-
-    def update(self, content):
-        self.ut = int(time.time())
-        self.content = content
-
     def comments(self):
-        return Comment.find_all(bid = self.id)
+        cms = []
+        ms = Comment.all()
+        for m in ms:
+            if m.bid == self.id:
+                cms.append(m)
+        return cms
 
 
 class Comment(Model):
     def __init__(self, form):
         self.id = None
-        self.id = form.get('uid')
+        self.uid = form.get('uid')
         self.bid = form.get('bid', '')
         self.cotent = form.get('content', '')
         self.ct = form.get('ct', int(time.time()))
-
-    def json(self):
-        pass
 
