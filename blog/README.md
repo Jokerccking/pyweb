@@ -38,3 +38,14 @@
 * Comment function tobe continue...
 
 
+## Ver 1.5
+---
+
+**instruction
+
+* Type of time tobe changed
+* Frame Blog Web add Comment Function
+* No view function for others
+* Frame tobe done
+
+ 

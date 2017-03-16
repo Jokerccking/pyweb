@@ -32,10 +32,12 @@ var todoAdd = function() {
 	var ele = e("#id-tdadd");
 
 	var clickEvent = function() {
+		var tt = ele.querySelector(".content");
 		var form = {
 			uid: ele.dataset.id,
-			content: ele.querySelector(".content").value,
+			content: tt.value
 		};
+		tt.value = "";
 		var callBack = function(resp) {
 			var tdList = e("#id-tdlist");
 			var tdCell = todoTemplate(JSON.parse(resp));

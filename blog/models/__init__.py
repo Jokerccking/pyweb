@@ -38,7 +38,8 @@ class Model(object):
     @classmethod
     def all(cls):
         path = cls.data_path()
-        return [cls(m) for m in load(path)]
+        ms = [cls(m) for m in load(path)]
+        return ms
 
     @classmethod
     def find(cls, i):
@@ -69,6 +70,11 @@ class Model(object):
             if m.uid == uid:
                 ums.append(m)
         return ums
+
+    @classmethod
+    def resave(cls,ms):
+        p = [m.__dict__ for m in ms]
+        save(p, cls.data_path())
 
 
     def __repr__(self):

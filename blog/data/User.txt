@@ -1,8 +1,14 @@
 [
   {
-    "password": "123",
-    "username": "roy",
     "id": 0,
+    "username": "roy",
+    "password": "123",
+    "role": 10
+  },
+  {
+    "id": 1,
+    "username": "abc",
+    "password": "123",
     "role": 10
   }
 ]

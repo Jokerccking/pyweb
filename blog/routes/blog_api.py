@@ -32,12 +32,32 @@ def b_api_delete(request):
     bid = request.query.get('id')
     if u is None or bid is None:
         return redirect('/blog')
-    b = Blog.pop(int(bid))
+    b = Blog.popi(int(bid))
     return json_response(b.to_dict())
+
+def b_api_cmtadd(request):
+    u = current(request)
+    form = request.json_form()
+    bid = form.get('bid')
+    if u is None or bid is None:
+        return redirect('/blog')
+    form['um'] = u.username
+    cmt = Comment.new(form)
+    return json_response(cmt.to_dict())
+
+def b_api_cmtdelete(request):
+    u = current(request)
+    cid = request.query.get("id")
+    if u is None or cid is None:
+        return redirect('/blog')
+    cmt = Comment.pop(int(cid))
+    return json_response(cmt.to_dict())
 
 
 route_blog_api = {
     '/blog/api/all': b_api_all,
     '/blog/api/add': b_api_add,
     '/blog/api/delete': b_api_delete,
+    '/blog/api/cmt_add': b_api_cmtadd,
+    '/blog/api/cmt_delete': b_api_cmtdelete,
 }
