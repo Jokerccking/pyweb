@@ -52,14 +52,15 @@ class Model(object):
         return mod
 
     @classmethod
-    def pop(cls, i):
+    def pop(cls, d):
         ms = cls.all()
         mod = None
-        for index,obj in enumerate(ms):
-            if obj.id == i:
-                mod = ms.pop(index)
-                p = [m.__dict__ for m in ms]
-                save(p, cls.data_path())
+        for m in ms:
+            if m.id == d:
+                mod = m
+        if mod is not None:
+            ms.remove(mod)
+            cls.resave(ms)
         return mod
 
     @classmethod

@@ -1,23 +1,9 @@
 [
   {
-    "id": 1,
-    "um": "roy",
-    "bid": 1,
-    "ct": 1489659697,
-    "content": "11111"
-  },
-  {
     "id": 2,
+    "bid": 0,
+    "content": "11111333333",
     "um": "roy",
-    "bid": 1,
-    "ct": 1489659701,
-    "content": "22222"
-  },
-  {
-    "id": 3,
-    "um": "roy",
-    "bid": 1,
-    "ct": 1489659720,
-    "content": "cmt delete test finally"
+    "ct": 1489670395
   }
 ]

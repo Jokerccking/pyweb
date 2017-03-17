@@ -23,6 +23,11 @@
 		</div>
 		<h3>To others:</h3>
 		<div id="id-toothers">
+			{% for u in users %}
+			<div>
+				<a src="/blog/view?id="+{{ u.id }}>{{ u.username }}</a>
+			</div>
+			{% endfor %}
 
 		</div>
 	

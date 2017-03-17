@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="">
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+		<title>Host Blog Page</title>
+	</head>
+	<body>
+		<h1>Blog Page of {{ hum }}</h1>
+		<h2>Hello, {{ um }}</h2>
+		<h3>Blogs List:</h3>
+		<div id="id-bloglist" data-id="{{ hid }}">
+
+		</div>
+		<div id="id-toothers">
+			{% for u in users %}
+			<div>
+				<a src="/blog/view?id={{ u.id }}">{{ u.username }}</a>
+			</div>
+			{% endfor %}
+
+		</div>
+		<script src="/static?file=basic.js"></script>
+		<script src="/static?file=blog_view.js"></script>
+	</body>
+</html>

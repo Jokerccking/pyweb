@@ -58,6 +58,6 @@ route_blog_api = {
     '/blog/api/all': b_api_all,
     '/blog/api/add': b_api_add,
     '/blog/api/delete': b_api_delete,
-    '/blog/api/cmt_add': b_api_cmtadd,
-    '/blog/api/cmt_delete': b_api_cmtdelete,
+    '/blog/api/cmtadd': b_api_cmtadd,
+    '/blog/api/cmtdel': b_api_cmtdelete,
 }

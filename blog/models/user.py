@@ -48,3 +48,12 @@ class User(Model):
     def comments(self):
         return Comment.find_all(self.id)
 
+
+    def others(self):
+        ms = self.all()
+        u = None
+        for m in ms:
+            if m.id == self.id:
+                u = m
+        ms.remove(u)
+        return ms

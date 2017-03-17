@@ -111,7 +111,7 @@ var cmtAdd = function() {
 				var cmtList = bCell.querySelector(".cmtlist");
 				cmtList.insertAdjacentHTML("beforeend",cmtCell);
 			};
-			ajax("POST","/blog/api/cmt_add",form,callBack);
+			ajax("POST","/blog/api/cmtadd",form,callBack);
 		}
 
 	};
@@ -128,7 +128,7 @@ var cmtDelete = function() {
 			var callBack = function(resp) {
 				cmtCell.remove();
 			};
-			ajax("GET","/blog/api/cmtdelete?id="+cmtId,"",callBack);
+			ajax("GET","/blog/api/cmtdel?id="+cmtId,"",callBack);
 		}
 	};
 	bindClickEvent(ele,clickEvent);
