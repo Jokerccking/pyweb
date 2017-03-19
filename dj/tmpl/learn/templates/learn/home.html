@@ -1,0 +1,26 @@
+{% extends 'learn/basic.html' %}
+
+{% block title %}Home Page{% endblock %}
+
+{% block content%}
+
+{% include 'ad.html' %}
+Welecome to Home Page!
+{{ string }}
+
+{% for i in TutorialList %}
+{{ i }}{% if not forloop.last %},{% endif %}
+{% empty %}
+	Empty List
+{% endfor %}
+
+site: {{ info_dict.site }} content: {{ info_dict.content }}
+
+{% for k, v in info_dict.items %}
+	{{ k }}: {{ v }}
+{% endfor %}
+
+websitepath:{% url 'add' 4 5 as the_url %}
+<a href="{{ the_url }}">To add</a>
+
+{% endblock %}

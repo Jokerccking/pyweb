@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% block title %}Defalut-title{% endblock %} - Roy</title>
+	</head>
+	<body>
+
+		{% include 'nav.html' %}
+
+		{% block content %}
+		<div>Defalut-content, all the content extend this template,if not override,show the defalut.</div>
+		{% endblock %}
+
+		{% include 'bottom.html' %}
+
+		{% include 'tongji.html' %}
+
+	</body>
+</html>
