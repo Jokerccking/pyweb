@@ -3,7 +3,7 @@ import json
 from jinja2 import Environment, FileSystemLoader
 import random
 from models.user import User
-from utils import log
+
 
 
 session = {}

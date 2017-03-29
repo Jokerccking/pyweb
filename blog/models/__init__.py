@@ -1,5 +1,5 @@
 import json
-from utils import log
+
 
 def load(path):
     """
@@ -12,7 +12,7 @@ def load(path):
         return json.loads(s)
 
 
-def save(data,path):
+def save(data, path):
     """
     save data into file by json moudle
     """
@@ -25,6 +25,7 @@ class Model(object):
     """
     base data Class for storing message
     """
+
     @classmethod
     def data_path(cls):
         name = cls.__name__
@@ -32,7 +33,7 @@ class Model(object):
 
     @classmethod
     def new(cls, form):
-        m= cls(form)
+        m = cls(form)
         return m.save()
 
     @classmethod
@@ -64,7 +65,7 @@ class Model(object):
         return mod
 
     @classmethod
-    def find_all(cls,uid):
+    def find_all(cls, uid):
         ums = []
         ms = cls.all()
         for m in ms:
@@ -73,10 +74,9 @@ class Model(object):
         return ums
 
     @classmethod
-    def resave(cls,ms):
+    def resave(cls, ms):
         p = [m.__dict__ for m in ms]
         save(p, cls.data_path())
-
 
     def __repr__(self):
         return json.dumps(self.__dict__)
@@ -93,10 +93,9 @@ class Model(object):
             self.id = i
             ms.append(self)
         else:
-            for index,obj in enumerate(ms):
+            for index, obj in enumerate(ms):
                 if obj.id == self.id:
                     ms[index] = self
         p = [m.__dict__ for m in ms]
         save(p, self.data_path())
         return self
-
